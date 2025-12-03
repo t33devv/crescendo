@@ -25,7 +25,6 @@ function MusicPlayer({ song, songs, onSongChange, category, setCategory }) {
         audioRef.current.play()
           .then(() => {
             setIsPlaying(true);
-            setShouldAutoPlay(false);
           })
           .catch(err => console.log('Play failed:', err));
       } else {
@@ -80,7 +79,7 @@ function MusicPlayer({ song, songs, onSongChange, category, setCategory }) {
 
   return (
     <div className="bg-white rounded-xl p-5 flex gap-6 w-full max-w-xl shadow-lg relative">
-      {/* Album Art */}
+
       <div className="w-36 h-36 flex-shrink-0">
         <img 
           src={song.albumArt} 
@@ -89,19 +88,16 @@ function MusicPlayer({ song, songs, onSongChange, category, setCategory }) {
         />
       </div>
       
-      {/* Controls Section */}
       <div className="flex-1 flex flex-col justify-between relative">
-        {/* Time Display - Top Right Corner */}
+
         <div className="absolute top-0 right-0 font-medium text-gray-700">
           {formatTime(currentTime)}
         </div>
 
-        {/* Song Info */}
         <div className="mb-3 pr-16">
           <h2 className="text-xl font-bold mb-0.5">{song.title}</h2>
           <p className="text-gray-600 text-sm mb-2">{song.artist}</p>
           
-          {/* Mode Selection - Emoji Buttons */}
           <div className="flex gap-2 mb-2">
             <button
               onClick={() => setCategory('study')}
@@ -128,7 +124,6 @@ function MusicPlayer({ song, songs, onSongChange, category, setCategory }) {
           </div>
         </div>
 
-        {/* Control Buttons - Bottom */}
         <div className="flex items-center gap-3">
           <button 
             onClick={togglePlay}
@@ -137,18 +132,6 @@ function MusicPlayer({ song, songs, onSongChange, category, setCategory }) {
             {isPlaying ? <Pause size={22} /> : <Play size={22} />}
           </button>
           
-          {/* Shuffle Button */}
-          <button 
-            onClick={() => setIsShuffling(!isShuffling)}
-            className={`p-1.5 hover:bg-gray-100 rounded-full transition-all ${
-              isShuffling ? 'opacity-100 text-orange-500' : 'opacity-50'
-            }`}
-            title={isShuffling ? 'Shuffle On' : 'Shuffle Off'}
-          >
-            <Shuffle size={18} />
-          </button>
-          
-          {/* Loop Button */}
           <button 
             onClick={() => setIsLooping(!isLooping)}
             className={`p-1.5 hover:bg-gray-100 rounded-full transition-all ${
@@ -159,7 +142,6 @@ function MusicPlayer({ song, songs, onSongChange, category, setCategory }) {
             <Repeat size={18} />
           </button>
 
-          {/* Volume Control */}
           <div className="flex items-center gap-2 flex-1">
             <Volume2 size={18} />
             <input
@@ -175,7 +157,6 @@ function MusicPlayer({ song, songs, onSongChange, category, setCategory }) {
         </div>
       </div>
 
-      {/* Audio Element */}
       <audio
         ref={audioRef}
         src={song.audioUrl}

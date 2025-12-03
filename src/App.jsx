@@ -7,8 +7,27 @@ function App() {
   const [songs, setSongs] = useState([]);
   const [currentSong, setCurrentSong] = useState(null);
   const [category, setCategory] = useState('study');
+  const [isMorning, setIsMorning] = useState(true);
+  const [isAfternoon, setIsAfternoon] = useState(false);
+  const [isNight, setIsNight] = useState(false);
 
   useEffect(() => {
+    const now = new Date();
+    const hours = now.getHours();
+
+    if (hours > 5 && hours < 11) {
+      setIsMorning(true);
+      setIsAfternoon(false)
+      setIsNight(false)
+    } else if (hours >= 11 && hours < 6) {
+      setIsMorning(false);
+      setIsAfternoon(true)
+      setIsNight(false)
+    } else {
+      setIsMorning(false);
+      setIsAfternoon(false)
+      setIsNight(true)
+    }
     fetchSongs(category);
   }, [category]);
 
@@ -27,13 +46,11 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary via-accent to-secondary flex items-center justify-center p-6">
-      {/* Smaller Centered Container Box */}
-      <div className="w-full max-w-3xl bg-amber-50 rounded-2xl shadow-2xl overflow-hidden flex flex-col" style={{ minHeight: '70vh' }}>
-        {/* Header - simplified without category buttons */}
+    <div className={`${isMorning && 'from-morningPrimary to-morningSecondary via-morningAccent'} ${isAfternoon && 'from-afternoonPrimary to-afternoonSecondary via-afternoonAccent'} ${isNight && 'from-nightPrimary to-nightSecondary via-nightAccent'} min-h-screen bg-gradient-to-br flex items-center justify-center p-6`}>
+      <div className="w-full max-w-3xl bg-white/20 backdrop-blur-md border border-white/20 rounded-2xl shadow-2xl overflow-hidden flex flex-col" style={{ minHeight: '70vh' }}>
+
         <Header />
         
-        {/* Main Content Area */}
         <main className="flex-1 flex items-center justify-center p-8">
           {currentSong ? (
             <MusicPlayer 
@@ -50,7 +67,6 @@ function App() {
           )}
         </main>
         
-        {/* Footer */}
         <Footer />
       </div>
     </div>

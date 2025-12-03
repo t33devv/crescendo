@@ -7,9 +7,17 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: '#e8a84d',      // Brighter golden/amber
-        secondary: '#c85a3f',    // More vibrant coral/red-brown
-        accent: '#ff8c42',       // Bright orange accent
+        morningPrimary: '#e8a84d',
+        morningSecondary: '#c85a3f',
+        morningAccent: '#ff8c42',
+
+        afternoonPrimary: '#f4a261',
+        afternoonSecondary: '#e9c46a',
+        afternoonAccent: '#2a9d8f',
+        
+        nightPrimary: '#1e3a5f',
+        nightSecondary: '#2d1b4e',
+        nightAccent: '#818cf8',  
       },
     },
   },
