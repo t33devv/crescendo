@@ -145,15 +145,18 @@ function MusicPlayer({ song, songs, onSongChange, category, setCategory }) {
           <div className="flex items-center gap-2 flex-1">
             <Volume2 size={18} />
             <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.01"
-              value={volume}
-              onChange={(e) => setVolume(parseFloat(e.target.value))}
-              className="flex-1 h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-orange-500"
+                type="range"
+                min="0"
+                max="1"
+                step="0.01"
+                value={volume}
+                onChange={(e) => setVolume(parseFloat(e.target.value))}
+                className="flex-1 h-1.5 rounded-lg appearance-none cursor-pointer"
+                style={{
+                background: `linear-gradient(to right, #f97316 0%, #f97316 ${volume * 100}%, #e5e7eb ${volume * 100}%, #e5e7eb 100%)`
+                }}
             />
-          </div>
+            </div>
         </div>
       </div>
 
