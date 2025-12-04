@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Header from './components/Header';
 import MusicPlayer from './components/MusicPlayer';
 import Footer from './components/Footer';
+import AboutModal from './components/AboutModal';
 
 function App() {
   const [songs, setSongs] = useState([]);
@@ -10,6 +11,8 @@ function App() {
   const [isMorning, setIsMorning] = useState(true);
   const [isAfternoon, setIsAfternoon] = useState(false);
   const [isNight, setIsNight] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
+  const [isAboutOpen, setIsAboutOpen] = useState(false);
 
   useEffect(() => {
     const now = new Date();
@@ -17,16 +20,16 @@ function App() {
 
     if (hours > 5 && hours < 11) {
       setIsMorning(true);
-      setIsAfternoon(false)
-      setIsNight(false)
-    } else if (hours >= 11 && hours < 6) {
+      setIsAfternoon(false);
+      setIsNight(false);
+    } else if (hours >= 11 && hours < 18) {
       setIsMorning(false);
-      setIsAfternoon(true)
-      setIsNight(false)
+      setIsAfternoon(true);
+      setIsNight(false);
     } else {
       setIsMorning(false);
-      setIsAfternoon(false)
-      setIsNight(true)
+      setIsAfternoon(false);
+      setIsNight(true);
     }
     fetchSongs(category);
   }, [category]);
@@ -37,7 +40,7 @@ function App() {
       const data = await response.json();
       setSongs(data);
       if (data.length > 0) {
-        const randomIndex = Math.floor(Math.random() * data.length)
+        const randomIndex = Math.floor(Math.random() * data.length);
         setCurrentSong(data[randomIndex]);
       }
     } catch (error) {
@@ -46,30 +49,45 @@ function App() {
   };
 
   return (
-    <div className={`${isMorning && 'from-morningPrimary to-morningSecondary via-morningAccent'} ${isAfternoon && 'from-afternoonPrimary to-afternoonSecondary via-afternoonAccent'} ${isNight && 'from-nightPrimary to-nightSecondary via-nightAccent'} min-h-screen bg-gradient-to-br flex items-center justify-center p-6`}>
-      <div className="w-full max-w-3xl bg-white/20 backdrop-blur-md border border-white/20 rounded-2xl shadow-2xl overflow-hidden flex flex-col" style={{ minHeight: '70vh' }}>
+    <>
+      <div className={`${isMorning && 'from-morningPrimary to-morningSecondary via-morningAccent'} ${isAfternoon && 'from-afternoonPrimary to-afternoonSecondary via-afternoonAccent'} ${isNight && 'from-nightPrimary to-nightSecondary via-nightAccent'} min-h-screen bg-gradient-to-br flex items-center justify-center p-6`}>
+        <div className="w-[90%] max-w-3xl bg-white/20 backdrop-blur-md border border-white/20 rounded-2xl shadow-2xl overflow-hidden flex flex-col" style={{ minHeight: '70vh' }}>
 
-        <Header />
-        
-        <main className="flex-1 flex items-center justify-center p-8">
-          {currentSong ? (
-            <MusicPlayer 
-              song={currentSong} 
-              songs={songs}
-              onSongChange={setCurrentSong}
-              category={category}
-              setCategory={setCategory}
-            />
-          ) : (
-            <div className="text-center text-gray-500">
-              <p className="text-lg">Loading music...</p>
-            </div>
-          )}
-        </main>
-        
-        <Footer />
+          <Header 
+            darkMode={darkMode} 
+            setDarkMode={setDarkMode}
+            onAboutClick={() => setIsAboutOpen(true)}
+          />
+          
+          <main className="flex-1 flex items-center justify-center p-8">
+            {currentSong ? (
+              <MusicPlayer 
+                song={currentSong} 
+                songs={songs}
+                onSongChange={setCurrentSong}
+                category={category}
+                setCategory={setCategory}
+                darkMode={darkMode}
+                isMorning={isMorning}
+                isAfternoon={isAfternoon}
+                isNight={isNight}
+              />
+            ) : (
+              <div className="text-center text-gray-500">
+                <p className="text-lg text-white">Loading music...</p>
+              </div>
+            )}
+          </main>
+          
+          <Footer />
+        </div>
       </div>
-    </div>
+
+      <AboutModal 
+        isOpen={isAboutOpen} 
+        onClose={() => setIsAboutOpen(false)} 
+      />
+    </>
   );
 }
 
