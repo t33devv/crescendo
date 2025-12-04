@@ -127,7 +127,7 @@ function MusicPlayer({ song, songs, onSongChange, darkMode, isMorning, isAfterno
 
   const getAudioUrl = () => {
     const paddedId = song.id.toString().padStart(3, '0');
-    return `http://localhost:3001/audio/${song.category}-${paddedId}.mp3`;
+    return `https://crescendo-backend-etnq.onrender.com/audio/${song.category}-${paddedId}.mp3`;
   };
 
   const progress = duration > 0 ? (currentTime / duration) * 100 : 0;

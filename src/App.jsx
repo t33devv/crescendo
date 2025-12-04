@@ -36,7 +36,7 @@ function App() {
 
   const fetchSongs = async (cat) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/songs?category=${cat}`);
+      const response = await fetch(`https://crescendo-backend-etnq.onrender.com/api/songs?category=${cat}`);
       const data = await response.json();
       setSongs(data);
       if (data.length > 0) {
